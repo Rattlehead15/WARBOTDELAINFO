@@ -65,6 +65,6 @@ if __name__ == "__main__":
         html = template.render(personajes=famososConEstado)
         imgkit.from_string(html, 'out.jpg')
         api.update_with_media('out.jpg', status=mensajeParaTweetear)
-        time.sleep(10)
+        time.sleep(120)
 
-    api.update_status("Gano el picante de " + famosos[0])
+    api.update_status('./images/' + famosos[0], status="Ganó la picante de " + famosos[0])
