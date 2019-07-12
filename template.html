@@ -5,16 +5,34 @@
     <title>WARBOT DE LA INFO</title>
 </head>
 <body>
+    <style>
+        table {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        
+        table td, table th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        
+        table th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+        }
+    </style>
 <table>
     {% for row in personajes | batch(6, '&nbsp;')%}
     <tr>
         {% for personaje in row %}
-        <th>
             {% if personaje.vivo %}
-            <span>{{personaje.nombre}}</span>
+            <th>
             {% else %}
-            <span style="background-color: #FF0000">{{personaje.nombre}}</span>
+            <th style="background-color: #FF0000">
             {% endif %}
+            <span>{{personaje.nombre}}</span>
         </th>
         {%endfor%}
     </tr>
