@@ -27,7 +27,7 @@
     {% for row in personajes | batch(6, '&nbsp;')%}
     <tr>
         {% for personaje in row %}
-            {% if personaje.vivo %}
+            {% if personaje.vivo or personaje.nombre is not defined %}
             <th>
             {% else %}
             <th style="background-color: #FF0000">
