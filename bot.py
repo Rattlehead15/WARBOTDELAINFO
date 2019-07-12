@@ -38,11 +38,17 @@ if __name__ == "__main__":
     auth.set_access_token(A_TOKEN, A_TOKEN_SECRET)
     api = tweepy.API(auth)
 
-    famosos = ["Marcos", "Bachur", "Gony", "LUCIO BOTTI"]
+    famosos = open("contendientes.txt").readlines()
+    mensajes = open("asesinatos.txt").readlines()
 
-    while(True):
+    while len(famosos) >= 2:
         print("Voy a decir la nword")
         seVanACagarAPiñas = random.sample(famosos, 2)
-        api.update_status(seVanACagarAPiñas[0] + " destruyó a " + seVanACagarAPiñas[1] + " y le dabeó en la cara")
+        mensaje = random.sample(mensajes, 1)[0]
+        api.update_status(mensaje.replace("UNO", seVanACagarAPiñas[0]).replace("DOS", seVanACagarAPiñas[1]))
         famosos.remove(seVanACagarAPiñas[1])
+        mensajes.remove(mensaje)
         time.sleep(10)
+
+    api.media_upload()
+    api.update_status("Gano el picante de " + famosos[0])
