@@ -30,38 +30,19 @@ logfile_name = bot_username + ".log"
 
 # ==============================================================
 
-
-def create_tweet():
-    """Create the text of the tweet you want to send."""
-    # Replace this with your code!
-    text = ""
-    return text
-
-
-def tweet(text):
-    """Send out the text as a tweet."""
-    # Twitter authentication
+from secrets import *
+import time
+import random
+if __name__ == "__main__":
     auth = tweepy.OAuthHandler(C_KEY, C_SECRET)
     auth.set_access_token(A_TOKEN, A_TOKEN_SECRET)
     api = tweepy.API(auth)
 
-    # Send the tweet and log success or failure
-    try:
-        api.update_status(text)
-    except tweepy.error.TweepError as e:
-        log(e.message)
-    else:
-        log("Tweeted: " + text)
+    famosos = ["Marcos", "Bachur", "Gony", "LUCIO BOTTI"]
 
-
-def log(message):
-    """Log message to logfile."""
-    path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
-    with open(os.path.join(path, logfile_name), 'a+') as f:
-        t = strftime("%d %b %Y %H:%M:%S", gmtime())
-        f.write("\n" + t + " " + message)
-
-
-if __name__ == "__main__":
-    tweet_text = create_tweet()
-    tweet(tweet_text)
+    while(True):
+        print("Voy a decir la nword")
+        seVanACagarAPiñas = random.sample(famosos, 2)
+        api.update_status(seVanACagarAPiñas[0] + " destruyó a " + seVanACagarAPiñas[1] + " y le dabeó en la cara")
+        famosos.remove(seVanACagarAPiñas[1])
+        time.sleep(10)
