@@ -33,22 +33,38 @@ logfile_name = bot_username + ".log"
 from secrets import *
 import time
 import random
+from jinja2 import Template
+import imgkit
+
+class personaje:
+    def __init__(self, nombre, vivo = True):
+        self.nombre = nombre
+        self.vivo = vivo
+    def __eq__(self, other):
+        return self.nombre == other.nombre
+
+
 if __name__ == "__main__":
     auth = tweepy.OAuthHandler(C_KEY, C_SECRET)
     auth.set_access_token(A_TOKEN, A_TOKEN_SECRET)
     api = tweepy.API(auth)
 
-    famosos = open("contendientes.txt").readlines()
-    mensajes = open("asesinatos.txt").readlines()
+    famosos = list(map(lambda x: x.strip(), open("contendientes.txt", encoding='utf-8').readlines()))
+    famososConEstado = list(map(lambda x: personaje(x), famosos))
+    mensajes = open("asesinatos.txt", encoding='utf-8').readlines()
 
+    template = Template(open("template.html", encoding='utf-8').read())
     while len(famosos) >= 2:
         print("Voy a decir la nword")
         seVanACagarAPiñas = random.sample(famosos, 2)
         mensaje = random.sample(mensajes, 1)[0]
-        api.update_status(mensaje.replace("UNO", seVanACagarAPiñas[0]).replace("DOS", seVanACagarAPiñas[1]))
+        mensajeParaTweetear = mensaje.replace("UNO", seVanACagarAPiñas[0]).replace("DOS", seVanACagarAPiñas[1])
+        famososConEstado[famososConEstado.index(personaje(seVanACagarAPiñas[1]))].vivo = False
         famosos.remove(seVanACagarAPiñas[1])
         mensajes.remove(mensaje)
+        html = template.render(personajes=famososConEstado)
+        imgkit.from_string(html, 'out.jpg')
+        api.update_with_media('out.jpg', status=mensajeParaTweetear)
         time.sleep(10)
 
-    api.media_upload()
     api.update_status("Gano el picante de " + famosos[0])

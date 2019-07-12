@@ -2,9 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>WARBOT DE LA INFO</title>
 </head>
 <body>
-
+<table>
+    {% for row in personajes | batch(6, '&nbsp;')%}
+    <tr>
+        {% for personaje in row %}
+        <th>
+            {% if personaje.vivo %}
+            <span>{{personaje.nombre}}</span>
+            {% else %}
+            <span style="background-color: #FF0000">{{personaje.nombre}}</span>
+            {% endif %}
+        </th>
+        {%endfor%}
+    </tr>
+    {%endfor%}
+</table>
 </body>
 </html>
